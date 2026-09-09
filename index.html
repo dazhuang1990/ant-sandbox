@@ -381,7 +381,10 @@ __define('game-engine/renderer', "/**\n * 渲染器（game-engine/renderer.js）
 
   // ---------- 主循环 ----------
   var saveTimer = 0;
+  // 下载云存档后上锁：否则 beforeunload/定时存档会把「当前旧世界」写回去，覆盖刚下载的存档
+  var skipUnloadSave = false;
   function doSave() {
+    if (skipUnloadSave) return;
     if (!world || !ants) return;
     storage.save(saveUtil.snapshot(world, ants));
   }
@@ -565,6 +568,7 @@ __define('game-engine/renderer', "/**\n * 渲染器（game-engine/renderer.js）
         var data = JSON.parse(r.content);
         if (!data || !data.colony) throw new Error('存档格式不符');
         storage.save(data);
+        skipUnloadSave = true;   // 上锁：防止 beforeunload / 定时存档用旧世界覆盖刚下载的存档
         cloudStatus.textContent = '✅ 已下载，正在重启恢复…';
         setTimeout(function() { location.reload(); }, 600);
       } catch (e) {
