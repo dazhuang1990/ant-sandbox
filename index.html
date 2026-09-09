@@ -72,6 +72,7 @@
   <div id="cloud-status" style="color:#9aa4c0; font-size:12px; min-height:18px; margin-top:6px;"></div>
 </div>
 <div class="mode-tip" id="mode-tip"></div>
+<div id="genesis-tip" style="display:none; position:fixed; top:86px; left:50%; transform:translateX(-50%); background:rgba(106,176,76,.92); color:#fff; font-size:12px; padding:6px 16px; border-radius:16px; z-index:10; pointer-events:none; white-space:nowrap; max-width:92vw; overflow:hidden; text-overflow:ellipsis;"></div>
 <div class="toolbar">
   <div class="tool" data-type="raise"><span class="tool-icon">⛰️</span><span class="tool-name">造山</span></div>
   <div class="tool" data-type="lower"><span class="tool-icon">⛏️</span><span class="tool-name">铲平</span></div>
@@ -426,8 +427,7 @@ __define('game-engine/renderer', "/**\n * 渲染器（game-engine/renderer.js）
         var envEl = document.getElementById('hud-env');
         envEl.textContent = '🌍 ' + pct + '%';
         envEl.style.color = pct < 80 ? '#ff9aa2' : (pct > 120 ? '#a8e063' : '#e8e8e8');
-        envEl.title = '环境评分：食物' + Math.round(env.food * 100) + '% 水源' + Math.round(env.water * 100) + '% 安全' + Math.round(env.safety * 100) + '% 多样' + Math.round(env.diversity * 100) + '%
-短板：' + env.bottleneckLabel + '（环境决定自进化速度 ' + pct + '%）';
+        envEl.title = '环境评分：食物' + Math.round(env.food * 100) + '% 水源' + Math.round(env.water * 100) + '% 安全' + Math.round(env.safety * 100) + '% 多样' + Math.round(env.diversity * 100) + '%\n短板：' + env.bottleneckLabel + '（环境决定自进化速度 ' + pct + '%）';
       }
       // 创世纪引导
       var g = world.colony.genesis;
