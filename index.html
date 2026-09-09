@@ -521,6 +521,15 @@ __define('game-engine/renderer', "/**\n * 渲染器（game-engine/renderer.js）
     cloudAuto.checked = auto;
   }
 
+  // 把输入框里的 Token 落盘（上传/下载/失焦都调用，避免「填了但没保存」）
+  function syncTokenFromInput() {
+    var t = cloudTokenInput.value.trim();
+    if (t) { cloudSave.setToken(t); cloudTokenInput.value = t; }
+    refreshCloudTokenUI();
+    return cloudSave.getToken();
+  }
+  cloudTokenInput.addEventListener('blur', function() { syncTokenFromInput(); });
+
   document.getElementById('btn-cloud').addEventListener('click', function() {
     cloudTokenInput.value = cloudSave.getToken();
     refreshCloudTokenUI();
@@ -539,9 +548,7 @@ __define('game-engine/renderer', "/**\n * 渲染器（game-engine/renderer.js）
     window.open('https://github.com/settings/tokens', '_blank');
   });
   document.getElementById('btn-cloud-upload').addEventListener('click', function() {
-    var t = cloudTokenInput.value.trim();
-    if (t) { cloudSave.setToken(t); cloudTokenInput.value = t; }
-    else if (!cloudSave.getToken()) { cloudStatus.textContent = '⚠️ 请先填入 GitHub Token'; return; }
+    if (!syncTokenFromInput()) { cloudStatus.textContent = '⚠️ 请先填入 GitHub Token'; return; }
     cloudStatus.textContent = '上传中…';
     cloudSave.upload(JSON.stringify(saveUtil.snapshot(world, ants))).then(function(r) {
       cloudStatus.textContent = (r.ok ? '✅ ' : '❌ ') + r.msg +
@@ -550,7 +557,7 @@ __define('game-engine/renderer', "/**\n * 渲染器（game-engine/renderer.js）
     });
   });
   document.getElementById('btn-cloud-download').addEventListener('click', function() {
-    if (!cloudSave.getToken()) { cloudStatus.textContent = '⚠️ 请先设置 GitHub Token'; return; }
+    if (!syncTokenFromInput()) { cloudStatus.textContent = '⚠️ 请先设置 GitHub Token'; return; }
     cloudStatus.textContent = '下载中…';
     cloudSave.download().then(function(r) {
       if (!r.ok) { cloudStatus.textContent = '❌ ' + r.msg; return; }
