@@ -50,13 +50,15 @@
   </div>
   <div style="color:#9aa4c0; font-size:12px; line-height:1.7; margin:10px 0;">
     把进度存到你的 GitHub 私有 Gist，换设备打开时即可下载恢复。<br>
-    需要 <b style="color:#c5cbe0">Personal Access Token</b>（勾选 <b style="color:#c5cbe0">gist</b> 权限）→
-    <span style="color:#74b9ff; text-decoration:underline; cursor:pointer;" id="gh-token-link">github.com/settings/tokens</span><br>
+    需要 <b style="color:#e8c46a">Personal Access Token (classic)</b>，在 scopes 里勾选 <b style="color:#e8c46a">gist</b>（Create gists）。<br>
+    ⚠️ 细粒度令牌（Fine-grained）没有 gist 权限，<b style="color:#e8c46a">必须用 classic</b>；
+    入口：头像→Settings→最底 Developer settings→Personal access tokens→<b style="color:#e8c46a">Tokens (classic)</b>→Generate new token (classic)
+    <span style="color:#74b9ff; text-decoration:underline; cursor:pointer;" id="gh-token-link">点此跳转</span><br>
     <span style="color:#ff9aa2;">Token 仅保存在本机浏览器，只发往 GitHub 官方 API。</span>
   </div>
   <div style="margin:12px 0;">
     <div style="font-size:13px; color:#c5cbe0; margin-bottom:6px;">GitHub Token</div>
-    <input id="cloud-token" type="password" placeholder="粘贴你的 Token（ghp_... 或 github_pat_...）" style="width:100%; padding:10px; border-radius:8px; border:1px solid #2a3a5e; background:#0f1530; color:#e8e8e8; font-size:13px;">
+    <input id="cloud-token" type="password" placeholder="粘贴经典令牌（ghp_...）" style="width:100%; padding:10px; border-radius:8px; border:1px solid #2a3a5e; background:#0f1530; color:#e8e8e8; font-size:13px;">
     <div id="cloud-token-status" style="font-size:12px; color:#9aa4c0; margin-top:6px;">未设置</div>
   </div>
   <div style="display:flex; gap:10px; margin:14px 0;">
